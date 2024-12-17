@@ -25,5 +25,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/inUtil-info/node-red-cloudflared.git"
+  },
+  "bugs": {
+    "url": "https://github.com/inUtil-info/node-red-cloudflared/issues"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
