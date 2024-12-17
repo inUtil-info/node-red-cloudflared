@@ -21,7 +21,19 @@ npm install @inutil-labs/node-red-cloudflare-tunnels
 
 ## Usage
 
-Once installed, you can use the node in your Node-RED flow by adding a `cloudflared` node. The node will output a public URL when the tunnel is successfully created.
+Once installed, you can use the node in your Node-RED flow by adding a `cloudflared` node. The node offers three modes of operation, configurable via its settings:
+
+#### 1. Test Mode (Default)
+
+In this mode, the tunnel is established in a testing environment. No local URL is exposed, and instead, a default page is displayed to indicate whether the tunnel has been successfully established. This mode corresponds to the "hello-world" example from the Cloudflare Developers documentation.
+
+#### 2. Quick Tunnel Mode
+
+This is the most commonly used mode for scenarios where you do not have your own domain managed in a Cloudflare account. In this mode, the local URL defined in the node configuration is exposed through a temporary public URL provided by Cloudflare. This allows quick and straightforward access to local services without the need for additional configuration.
+
+#### 3. Managed Tunnel Mode
+
+In this mode, you can establish a tunnel using a token from your Cloudflare account. This mode is intended for users with their own domain hosted on Cloudflare. The local URLs and their associated public URLs are defined and managed through the Cloudflare user interface. A token is required to enable this mode.
 
 ### Input
 
