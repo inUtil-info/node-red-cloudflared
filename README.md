@@ -19,8 +19,6 @@ To install the `@inutil-labs/node-red-cloudflare-tunnels` node in your Node-RED 
 npm install @inutil-labs/node-red-cloudflare-tunnels
 ```
 
-````
-
 ## Usage
 
 Once installed, you can use the node in your Node-RED flow by adding a `cloudflared` node. The node will output a public URL when the tunnel is successfully created.
@@ -64,6 +62,3 @@ The node has the following configurable options:
 ## License
 
 MIT License. See LICENSE for more information.
-
-
-````
