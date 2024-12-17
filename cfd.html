@@ -1,0 +1,138 @@
+<script type="text/javascript">
+  RED.nodes.registerType('cfd-config', {
+      category: 'config',
+      defaults: {
+          name: { value: "", required: true },
+          token: { value: "", required: false },
+          url: { value: "", required: false },
+          test: { value: true, required: true }
+      },
+      label: function () {
+          return this.name;
+      }
+  });
+</script>
+
+<script type="text/html" data-template-name="cfd-config">
+  <div class="form-row">
+      <label for="node-config-input-name"><i class="fa fa-globe"></i> Name</label>
+      <input type="text" id="node-config-input-name">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-test"><i class="fa fa-check-square"></i> Test Mode.</label>
+    <input type="checkbox" id="node-config-input-test" checked>
+  </div>
+  <div class="form-row" id="node-config-row-url">
+      <label for="node-config-input-url"><i class="fa fa-link"></i> URL</label>
+      <input type="text" id="node-config-input-url" placeholder="Enter the service URL you want to expose">
+  </div>
+  <div class="form-row" id="node-config-row-token">
+      <label for="node-config-input-token"><i class="fa fa-key"></i> Token</label>
+      <input type="text" id="node-config-input-token" placeholder="Leave it blank to use CF quick tunnels">
+  </div>
+</script>
+
+
+<script type="text/javascript">
+    RED.nodes.registerType("cloudflared",{
+        category: "network",
+        color: "#f38120",
+        defaults: {
+            name: { value: "" },
+            token: {value: "", type: "cfd-config"},
+            buttonState: {value: false},
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "font-awesome/fa-cloud",
+        label: function () {
+            return this.name || "cloudflared";
+        },
+        button: {
+        toggle: "buttonState",
+        onclick: function() {
+          if (this.changed) {
+          return RED.notify(RED._("notification.warning", {message:RED._("notification.warnings.undeployedChanges")}),"warning");
+          }
+          var label = this._def.label.call(this);
+          if (label.length > 30) {
+          label = label.substring(0,50)+"...";
+          }
+          label = label.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+          var node = this;
+          $.ajax({
+            url: "cloudflared/"+this.id,
+            type:"POST",
+            data: { "on": this.buttonState },
+            success: function(resp) {
+              if (node.buttonState) {
+                            RED.notify("Connecting", {type: "success"});
+                        }  else {
+                            RED.notify("Disconnecting", {type: "success"});
+                        }
+            },
+            error: function(jqXHR,textStatus,errorThrown) {
+              if (jqXHR.status == 404) {
+                  RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.not-deployed")}),"error");
+              } else if (jqXHR.status == 500) {
+                  RED.notify(node._("common.notification.error",{message:node._("inject.errors.failed")}),"error");
+              } else if (jqXHR.status == 0) {
+                  RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.no-response")}),"error");
+              } else {
+                  RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.unexpected",{status:jqXHR.status,message:textStatus})}),"error");
+              }
+            }
+          });
+          },
+          }
+  });
+  </script>  
+
+<script type="text/html" data-template-name="cloudflared">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row"></div>
+    <label for="node-input-token"><i class="fa fa-link"></i> Tunnel Config </label>
+    <input type="text" id="node-input-token" placeholder="QuickTunnels">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="cloudflared">
+  <p>A node-red node to stablish a cloudflare tunnel.</p>
+  <a> Please review the documentation to understand how the node works.</a> 
+
+  <h3>Input</h3>
+  <p>1. Standard Input: contains a message received, the content can be used to start a tunnel and expose a local url to the world through Cloudflare CDN.</p>
+  
+  <h3>Output</h3>
+  <p>1. Standard Output: the message contains the local service exposed and the public url to reach it.</p>
+  
+  <h3>Details</h3>
+  <p>The <code>cloudflared</code> node allows you to create secure Cloudflare tunnels directly from Node-RED, enabling easy and safe exposure of local services to the internet without needing complex network configurations.</p>
+  <p>When triggered, the node starts a Cloudflare tunnel using the <code>cloudflared</code> binary and outputs the public URL generated by Cloudflare. This URL can be used to access your local service securely from anywhere.</p>
+  <p>The node also manages active tunnel processes in the background to ensure stability and prevent redundant tunnels. It uses the Node-RED <code>global context</code> to store and update information about running tunnels, including:</p>
+  <ul>
+    <li><code>node_id</code>: A unique identifier for the node instance.</li>
+    <li><code>public_url</code>: The public URL generated by Cloudflare.</li>
+    <li><code>local_url</code>: The local service URL being exposed (optional).</li>
+  </ul>
+  <p>The output of the node is an object sent via <code>msg.payload</code>, structured as follows:</p>
+  <pre>
+  {
+    "tunnelCreated": "https://example.trycloudflare.com",
+    "localUrl": "http://localhost:1880"
+  }
+  </pre>
+  <p>This output can be processed further in your Node-RED flow, for example, by sending notifications or logging the tunnel details.</p>
+  <p><strong>Use Case Examples:</strong></p>
+  <ul>
+    <li>Exposing a development server for testing or client demos.</li>
+    <li>Providing remote access to IoT devices or APIs hosted on local networks.</li>
+  </ul>
+  <p>The node is fully configurable and designed to integrate seamlessly with your Node-RED workflows.</p>
+  
+
+</script>  
+

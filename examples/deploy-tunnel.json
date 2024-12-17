@@ -1,0 +1,70 @@
+[
+    {
+        "id": "96005d7033885d28",
+        "type": "debug",
+        "z": "4e2c9f44cb9fdd67",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1200,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "93918caa31ccdc7a",
+        "type": "inject",
+        "z": "4e2c9f44cb9fdd67",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 640,
+        "y": 60,
+        "wires": [
+            [
+                "69c737c30d56a0bd"
+            ]
+        ]
+    },
+    {
+        "id": "69c737c30d56a0bd",
+        "type": "cloudflared",
+        "z": "4e2c9f44cb9fdd67",
+        "name": "",
+        "token": "ccb977530586cf7b",
+        "buttonState": false,
+        "x": 870,
+        "y": 60,
+        "wires": [
+            [
+                "96005d7033885d28"
+            ]
+        ]
+    },
+    {
+        "id": "ccb977530586cf7b",
+        "type": "cfd-config",
+        "name": "test",
+        "token": "",
+        "url": "http://192.168.88.14:5550",
+        "test": false
+    }
+]

@@ -1,0 +1,29 @@
+{
+  "name": "@inutil-labs/node-red-cloudflare-tunnels",
+  "version": "0.0.3",
+  "description": "Node-RED node to create cloudflare tunnels using cloudflared",
+  "main": "cfd.js",
+  "scripts": {
+    "start": "node cfd.js"
+  },
+  "keywords": [
+    "node-red",
+    "cloudflare",
+    "tunnel"
+  ],
+  "author": "inUtil Labs <info@inutil.info>",
+  "license": "MIT",
+  "dependencies": {
+    "cloudflared": "^0.6.0"
+  },
+  "node-red": {
+    "nodes": {
+      "cloudflared": "cfd.js"
+    }
+  },
+  "homepage": "https://www.inutil-labs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inUtil-info/node-red-cloudflared.git"
+  }
+}

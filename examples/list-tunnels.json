@@ -1,0 +1,68 @@
+[
+    {
+        "id": "get_nodes_list",
+        "type": "function",
+        "z": "4e2c9f44cb9fdd67",
+        "name": "Get Tunnels List",
+        "func": "const globalContext = global.get('tunelList') || [];\nmsg.payload = globalContext;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 520,
+        "wires": [
+            [
+                "debug_node"
+            ]
+        ]
+    },
+    {
+        "id": "debug_node",
+        "type": "debug",
+        "z": "4e2c9f44cb9fdd67",
+        "name": "Tunnels List",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "f245f54f64695853",
+        "type": "inject",
+        "z": "4e2c9f44cb9fdd67",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 380,
+        "y": 520,
+        "wires": [
+            [
+                "get_nodes_list"
+            ]
+        ]
+    }
+]
