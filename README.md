@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Node-RED node allows you to easily create and manage secure Cloudflare tunnels directly from your Node-RED flows using the `cloudflared` binary. With this node, you can expose local services to the internet securely without complex network configurations.
+This Node-RED node allows you to easily create and manage secure Cloudflare tunnels directly from your Node-RED flows using the `cloudflared` binary. With this node, you can expose local services to the internet securely, always using a valid SSL certificate, without complex network configurations.
 
 ## Features
 
@@ -13,7 +13,9 @@ This Node-RED node allows you to easily create and manage secure Cloudflare tunn
 
 ## Installation
 
-To install the `@inutil-labs/node-red-cloudflare-tunnels` node in your Node-RED setup, run the following command:
+The easiest way to get started is by adding the node from the Palette.
+
+However, you can also install it manually. To install the `@inutil-labs/node-red-cloudflare-tunnels` node in your Node-RED setup, run the following command:
 
 ```bash
 npm install @inutil-labs/node-red-cloudflare-tunnels
@@ -21,7 +23,7 @@ npm install @inutil-labs/node-red-cloudflare-tunnels
 
 ## Usage
 
-Once installed, you can use the node in your Node-RED flow by adding a `cloudflared` node. The node offers three modes of operation, configurable via its settings:
+Once installed, you can use the node in your Node-RED flow by adding a `cloudflared` node, found under the Network category. The node offers three modes of operation, configurable via its settings:
 
 #### 1. Test Mode (Default)
 
@@ -29,17 +31,17 @@ In this mode, the tunnel is established in a testing environment. No local URL i
 
 #### 2. Quick Tunnel Mode
 
-This is the most commonly used mode for scenarios where you do not have your own domain managed in a Cloudflare account. In this mode, the local URL defined in the node configuration is exposed through a temporary public URL provided by Cloudflare. This allows quick and straightforward access to local services without the need for additional configuration.
+This is the most commonly used mode for scenarios where you do not have your own domain managed in a Cloudflare account. In this mode, the local URL defined in the node configuration is exposed through a temporary public URL provided by Cloudflare. This allows quick and straightforward access to local services without the need for additional configuration. This mode uses [Quick-Tunnels](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/).
 
 #### 3. Managed Tunnel Mode
 
-In this mode, you can establish a tunnel using a token from your Cloudflare account. This mode is intended for users with their own domain hosted on Cloudflare. The local URLs and their associated public URLs are defined and managed through the Cloudflare user interface. A token is required to enable this mode.
+In this mode, you can establish a tunnel using a token from your Cloudflare account. This mode is intended for users with their own domain hosted on Cloudflare. The local URLs and their associated public URLs are defined and managed through the Cloudflare user interface. A token is required to enable this mode, you can get details on how to get the token on [Cloudflare Developers](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/remote-management/).
 
 ### Input
 
-- The node doesn't require specific input to trigger the tunnel creation. It will automatically start a Cloudflare tunnel once deployed.
+- The node doesn't require specific input to trigger the tunnel creation as it will automatically start a Cloudflare tunnel once you click on the button; but if you need to, the tunnel can be started also injecting a valid payload as shown on the [examples](https://github.com/inUtil-info/node-red-cloudflared/tree/main/examples).
 
-## Output
+### Output
 
 The output of the node is an object sent via `msg.payload`, structured as follows:
 
@@ -55,21 +57,26 @@ Where:
 - **`tunnelCreated`**: The public URL of the Cloudflare tunnel.
 - **`localUrl`**: The local URL of the service exposed through the tunnel (optional).
 
-## Example Flow
+## Example and Demo:
 
 Here’s an example of how to use the node in a flow:
 
-1. Use an **Inject node** to trigger the `cloudflared` node.
+1. Click the button on the left of the node to connect the tunnel -or use an **Inject node** to trigger the `cloudflared` node, see the [examples](https://github.com/inUtil-info/node-red-cloudflared/tree/main/examples)-.
 2. The `cloudflared` node will create a tunnel and output the public URL to `msg.payload.tunnelCreated`.
 3. You can use a **Debug node** to log the URL or use it for further processing in your flow.
+
+Here's a recorded demo:
+
+[![How to deploy the node on Node-RED](https://img.youtube.com/vi/cmbks73w4Ho/0.jpg)](https://youtu.be/cmbks73w4Ho)
 
 ## Configuration
 
 The node has the following configurable options:
 
-- **Cloudflared Path**: The path to the `cloudflared` binary on your system.
+- **Test**: Indicates whether the tunnel is for testing purposes or not.
 - **Local URL**: The local URL you want to expose (optional).
-- **Node-RED Global Context**: The node stores information about the tunnel in the Node-RED global context under the `tunelList` key.
+- **Token**: The managed tunnel token to use (optional).
+- **Node-RED Global Context**: The node stores information about the tunnel in the Node-RED global context under the `tunelList` key. If you want to learn how to get the list of all tunnels running saved on the global context read the [examples](https://github.com/inUtil-info/node-red-cloudflared/tree/main/examples).
 
 ## License
 
