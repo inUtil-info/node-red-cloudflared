@@ -4,7 +4,7 @@
         "type": "function",
         "z": "4e2c9f44cb9fdd67",
         "name": "Get Tunnels List",
-        "func": "const globalContext = global.get('tunelList') || [];\nmsg.payload = globalContext;\nreturn msg;",
+        "func": "const globalContext = global.get('tunnelList') || [];\nmsg.payload = globalContext;\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,

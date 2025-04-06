@@ -21,6 +21,8 @@ However, you can also install it manually. To install the `@inutil-labs/node-red
 npm install @inutil-labs/node-red-cloudflare-tunnels
 ```
 
+> **Note**: Version 0.0.5 includes several bug fixes and improvements. It's recommended to update to this version if you're using an older one.
+
 ## Usage
 
 Once installed, you can use the node in your Node-RED flow by adding a `cloudflared` node, found under the Network category. The node offers three modes of operation, configurable via its settings:
@@ -59,7 +61,7 @@ Where:
 
 ## Example and Demo:
 
-Here’s an example of how to use the node in a flow:
+Here's an example of how to use the node in a flow:
 
 1. Click the button on the left of the node to connect the tunnel -or use an **Inject node** to trigger the `cloudflared` node, see the [examples](https://github.com/inUtil-info/node-red-cloudflared/tree/main/examples)-.
 2. The `cloudflared` node will create a tunnel and output the public URL to `msg.payload.tunnelCreated`.
@@ -76,7 +78,7 @@ The node has the following configurable options:
 - **Test**: Indicates whether the tunnel is for testing purposes or not.
 - **Local URL**: The local URL you want to expose (optional).
 - **Token**: The managed tunnel token to use (optional).
-- **Node-RED Global Context**: The node stores information about the tunnel in the Node-RED global context under the `tunelList` key. If you want to learn how to get the list of all tunnels running saved on the global context read the [examples](https://github.com/inUtil-info/node-red-cloudflared/tree/main/examples).
+- **Node-RED Global Context**: The node stores information about the tunnel in the Node-RED global context under the `tunnelList` key. If you want to learn how to get the list of all tunnels running saved on the global context read the [examples](https://github.com/inUtil-info/node-red-cloudflared/tree/main/examples).
 
 ## License
 

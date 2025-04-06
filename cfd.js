@@ -50,14 +50,14 @@ module.exports = function (RED) {
                 }
 
                 const globalContext = node.context().global;
-                let tunelList = globalContext.get("tunelList") || [];
+                let tunnelList = globalContext.get("tunnelList") || [];
         
-                tunelList = tunelList.filter(nodeInfo => nodeInfo.id !== node.id);
-                tunelList.push({
+                tunnelList = tunnelList.filter(nodeInfo => nodeInfo.id !== node.id);
+                tunnelList.push({
                     node_id: node.id
                 });
         
-                globalContext.set("tunelList", tunelList);
+                globalContext.set("tunnelList", tunnelList);
                 globalContext.set(`tunnelProcess_${node.id}`, tunnelProcess);
 
                 let receivedRelevantStderr = false; 
@@ -66,8 +66,6 @@ module.exports = function (RED) {
                 // Escuchar los eventos de stderr
                 tunnelProcess.on("stderr", (output) => {
                     
-                    // node.error(`stderr-culo: ${output}`);
-
                     if (output.includes("Generated Connector ID")) {
                         const match = output.match(/Connector ID: ([a-f0-9-]+)/i);
                         if (match && match[1]) {
@@ -109,7 +107,7 @@ module.exports = function (RED) {
                             const managedUrl = `https://${hostname}`;
                             const globalContext = node.context().global;
                     
-                            let tunnelList = globalContext.get("tunelList") || [];
+                            let tunnelList = globalContext.get("tunnelList") || [];
                     
                             const tunnelIndex = tunnelList.findIndex(tunnel => tunnel.node_id === node.id);
                             if (tunnelIndex !== -1) {
@@ -130,9 +128,9 @@ module.exports = function (RED) {
                                 }
                             });
 
-                            globalContext.set("tunelList", tunnelList);
+                            globalContext.set("tunnelList", tunnelList);
                         } else {
-                            console.log("invalid hostname");
+                            node.warn("Invalid hostname");
                         }
                     }
 
@@ -144,7 +142,7 @@ module.exports = function (RED) {
                             const publicUrl = match[0];
                             const globalContext = node.context().global;
                     
-                            let tunnelList = globalContext.get("tunelList") || [];
+                            let tunnelList = globalContext.get("tunnelList") || [];
                     
                             const tunnelIndex = tunnelList.findIndex(tunnel => tunnel.node_id === node.id);
                             if (tunnelIndex !== -1) {
@@ -165,9 +163,9 @@ module.exports = function (RED) {
                                 }
                             });
 
-                            globalContext.set("tunelList", tunnelList);
+                            globalContext.set("tunnelList", tunnelList);
                         } else {
-                            console.log("Failed to extract quick tunnel URL.");
+                            node.warn("Failed to extract quick tunnel URL.");
                         }
                     }
 
@@ -211,10 +209,10 @@ module.exports = function (RED) {
                 
                 const globalContext = node.context().global;
                 
-                let tunelList = globalContext.get("tunelList") || [];
-                tunelList = tunelList.filter(nodeInfo => nodeInfo.node_id !== node.id);
+                let tunnelList = globalContext.get("tunnelList") || [];
+                tunnelList = tunnelList.filter(nodeInfo => nodeInfo.node_id !== node.id);
                 
-                globalContext.set("tunelList", tunelList);
+                globalContext.set("tunnelList", tunnelList);
                 globalContext.set(`tunnelProcess_${node.id}`, null);
                 
                 node.status({ fill: "red", shape: "ring", text: "tunnel stopped" });
